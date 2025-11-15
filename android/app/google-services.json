@@ -1,65 +1,64 @@
 {
   "project_info": {
-    "project_number": "76598492826",
-    "project_id": "edubest-a9dee",
-    "storage_bucket": "edubest-a9dee.firebasestorage.app"
+    "project_number": "364630175808",
+    "project_id": "ovopay-app",
+    "storage_bucket": "ovopay-app.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:76598492826:android:bc9bdcb3a9af13fb386923",
+        "mobilesdk_app_id": "1:364630175808:android:74ef0e7ec7087b60786fa5",
         "android_client_info": {
-          "package_name": "com.edubest.felitech"
+          "package_name": "com.ovopay.tech"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "76598492826-2p7mnu5aqmp4h6qg44de83hbi592a7a1.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB3Et4HK1zx2xpOHZSpmXOKQRObpErTrXQ"
+          "current_key": "AIzaSyDGc_yVDOC4vQ6Ggns5SyKp3TSaAWqy2TI"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "76598492826-2p7mnu5aqmp4h6qg44de83hbi592a7a1.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:76598492826:android:70552941eae061a5386923",
+        "mobilesdk_app_id": "1:364630175808:android:b29c6a19ace48d2a786fa5",
         "android_client_info": {
-          "package_name": "com.ovopay.tech"
+          "package_name": "com.ovosolution.ovopayagent"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "76598492826-2p7mnu5aqmp4h6qg44de83hbi592a7a1.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB3Et4HK1zx2xpOHZSpmXOKQRObpErTrXQ"
+          "current_key": "AIzaSyDGc_yVDOC4vQ6Ggns5SyKp3TSaAWqy2TI"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "76598492826-2p7mnu5aqmp4h6qg44de83hbi592a7a1.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:364630175808:android:aa2f94c3170bb995786fa5",
+        "android_client_info": {
+          "package_name": "com.ovosolution.ovopaymerchant"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGc_yVDOC4vQ6Ggns5SyKp3TSaAWqy2TI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
         }
       }
     }
