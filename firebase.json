@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"com.ovopay.tech","appId":"1:76598492826:android:70552941eae061a5386923","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"com.ovopay.tech","configurations":{"android":"1:364630175808:android:74ef0e7ec7087b60786fa5","ios":"1:364630175808:ios:4661274da087cdd9786fa5"}}}}}}

@@ -1,0 +1,48 @@
+workflows:
+  m3pay-android:
+    name: Build m3pay Android App
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      flutter: "3.35.0"
+      xcode: "16.2"
+      groups:
+        - google_credentials  # optional, if you add Play Store keys later
+      vars:
+        PACKAGE_NAME: "com.m3pay.app"  # change this to your real package name
+    scripts:
+      - name: Get Flutter dependencies
+        script: |
+          flutter clean
+          flutter pub get
+
+      - name: Build APK (release, split per ABI, shrink)
+        script: |
+          flutter build apk \
+            --release \
+            --split-per-abi \
+            --obfuscate \
+            --split-debug-info=build/debug-info \
+            --no-tree-shake-icons
+
+      - name: Build AppBundle (AAB) for Play Store
+        script: |
+          flutter build appbundle \
+            --release \
+            --obfuscate \
+            --split-debug-info=build/debug-info
+
+    artifacts:
+      - build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+      - build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+      - build/app/outputs/flutter-apk/app-x86_64-release.apk
+      - build/app/outputs/bundle/release/app-release.aab
+      - flutter_drive.log
+
+    publishing:
+      email:
+        recipients:
+          - michealige080@gmail.com   # change to your email
+        notify:
+          success: true
+          failure: true

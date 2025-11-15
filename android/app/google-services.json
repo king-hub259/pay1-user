@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "76598492826",
+    "project_id": "edubest-a9dee",
+    "storage_bucket": "edubest-a9dee.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76598492826:android:bc9bdcb3a9af13fb386923",
+        "android_client_info": {
+          "package_name": "com.edubest.felitech"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "76598492826-2p7mnu5aqmp4h6qg44de83hbi592a7a1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3Et4HK1zx2xpOHZSpmXOKQRObpErTrXQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "76598492826-2p7mnu5aqmp4h6qg44de83hbi592a7a1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76598492826:android:70552941eae061a5386923",
+        "android_client_info": {
+          "package_name": "com.ovopay.tech"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "76598492826-2p7mnu5aqmp4h6qg44de83hbi592a7a1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3Et4HK1zx2xpOHZSpmXOKQRObpErTrXQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "76598492826-2p7mnu5aqmp4h6qg44de83hbi592a7a1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
