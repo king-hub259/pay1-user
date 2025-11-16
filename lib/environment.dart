@@ -2,7 +2,7 @@
 
 class Environment {
   static const appName = "Pay1c";
-  static const appVersion = "2.0.0";
+  static const appVersion = "3.0.0";
 
   static String defaultLangCode = "en";
   static String defaultLanguageName = "English";
@@ -11,16 +11,16 @@ class Environment {
   static String defaultCountryCode = "NG";
   static int maxMobileNumberDigit = 10; // Specify the required mobile number digits without country code
   static int maxPinNumberDigit = 6; // Specify the required max pin number digits
-  static int maxAllowPrecision = 10; // Specify the required allow precision for amount of digits
+  static int maxAllowPrecision = 11; // Specify the required allow precision for amount of digits
 
   static const int otpResendDuration = 120;
   //Is Color from Internet
   static const bool IS_COLOR_FROM_INTERNET = false;
 
   //Onboard
-  static const bool ENABLE_ONBOARD = true;
+  static const bool ENABLE_ONBOARD = false;
   //DEV MODE ==> false if production
-  static const bool DEV_MODE = true;
+  static const bool DEV_MODE = false;
 
   // API END POINT URL
   static const MAIN_API_URL = DEV_MODE ? TEST_API_URL : LIVE_API_URL; // Don't touch here
