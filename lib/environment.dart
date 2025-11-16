@@ -9,9 +9,9 @@ class Environment {
 
   static String defaultPhoneDialCode = "234"; //don't put + here
   static String defaultCountryCode = "NG";
-  static int maxMobileNumberDigit = 10; // Specify the required mobile number digits without country code
+  static int maxMobileNumberDigit = 11; // Specify the required mobile number digits without country code
   static int maxPinNumberDigit = 6; // Specify the required max pin number digits
-  static int maxAllowPrecision = 11; // Specify the required allow precision for amount of digits
+  static int maxAllowPrecision = 8; // Specify the required allow precision for amount of digits
 
   static const int otpResendDuration = 120;
   //Is Color from Internet
