@@ -20,7 +20,7 @@ class Environment {
   //Onboard
   static const bool ENABLE_ONBOARD = true;
   //DEV MODE ==> false if production
-  static const bool DEV_MODE = false;
+  static const bool DEV_MODE = true;
 
   // API END POINT URL
   static const MAIN_API_URL = DEV_MODE ? TEST_API_URL : LIVE_API_URL; // Don't touch here
