@@ -79,86 +79,84 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
           return TextSpan(text: timeText, style: MyTextStyle.sectionSubTitle1);
         }
 
-        return SingleChildScrollView(
-          child: Column(
-            children: [
-              //Code Verification
-              CustomAppCard(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Align(
-                      alignment: AlignmentDirectional.center,
-                      child: HeaderText(
-                        textAlign: TextAlign.center,
-                        text: MyStrings.emailVerification.tr,
-                        textStyle: MyTextStyle.headerH3.copyWith(
-                          color: MyColor.getHeaderTextColor(),
-                        ),
+        return Column(
+          children: [
+            //Code Verification
+            CustomAppCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Align(
+                    alignment: AlignmentDirectional.center,
+                    child: HeaderText(
+                      textAlign: TextAlign.center,
+                      text: MyStrings.emailVerification.tr,
+                      textStyle: MyTextStyle.headerH3.copyWith(
+                        color: MyColor.getHeaderTextColor(),
                       ),
                     ),
-                    spaceDown(Dimensions.space8),
-                    Align(
-                      alignment: AlignmentDirectional.center,
-                      child: HeaderText(
-                        textAlign: TextAlign.center,
-                        text: MyStrings.emailVerificationMsg.tr,
-                        textStyle: MyTextStyle.sectionSubTitle1,
+                  ),
+                  spaceDown(Dimensions.space8),
+                  Align(
+                    alignment: AlignmentDirectional.center,
+                    child: HeaderText(
+                      textAlign: TextAlign.center,
+                      text: MyStrings.emailVerificationMsg.tr,
+                      textStyle: MyTextStyle.sectionSubTitle1,
+                    ),
+                  ),
+                  spaceDown(Dimensions.space35),
+                  OTPFieldWidget(
+                    // controller: controller.otpController,
+                    onChanged: controller.onOtpBoxValueChange,
+                  ),
+                  spaceDown(Dimensions.space10),
+                ],
+              ),
+            ),
+            spaceDown(Dimensions.space15),
+            CustomElevatedBtn(
+              isLoading: controller.submitLoading,
+              radius: Dimensions.largeRadius.r,
+              bgColor: MyColor.getPrimaryColor(),
+              text: MyStrings.verifyNow,
+              onTap: () {
+                controller.verifyYourEmail(
+                  onSuccess: () {
+                    _nextPage();
+                  },
+                );
+              },
+            ),
+            spaceDown(Dimensions.space24),
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                text: "${controller.isOtpExpired == false ? MyStrings.waitUtilTheTimerFinishes.tr : MyStrings.didNotReceiveCode.tr} ",
+                style: MyTextStyle.sectionSubTitle1,
+                children: <TextSpan>[
+                  if (controller.isOtpExpired == false) ...[
+                    buildTimerText(controller),
+                  ] else ...[
+                    TextSpan(
+                      text: controller.resendLoading ? "${MyStrings.resending.tr}..." : MyStrings.resendCode.tr,
+                      style: MyTextStyle.sectionSubTitle1.copyWith(
+                        decoration: TextDecoration.underline,
+                        decorationColor: MyColor.getPrimaryColor(),
+                        color: MyColor.getPrimaryColor(),
                       ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          if (!controller.resendLoading) {
+                            controller.resendOtp();
+                          }
+                        },
                     ),
-                    spaceDown(Dimensions.space35),
-                    OTPFieldWidget(
-                      // controller: controller.otpController,
-                      onChanged: controller.onOtpBoxValueChange,
-                    ),
-                    spaceDown(Dimensions.space10),
                   ],
-                ),
+                ],
               ),
-              spaceDown(Dimensions.space15),
-              CustomElevatedBtn(
-                isLoading: controller.submitLoading,
-                radius: Dimensions.largeRadius.r,
-                bgColor: MyColor.getPrimaryColor(),
-                text: MyStrings.verifyNow,
-                onTap: () {
-                  controller.verifyYourEmail(
-                    onSuccess: () {
-                      _nextPage();
-                    },
-                  );
-                },
-              ),
-              spaceDown(Dimensions.space24),
-              RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  text: "${controller.isOtpExpired == false ? MyStrings.waitUtilTheTimerFinishes.tr : MyStrings.didNotReceiveCode.tr} ",
-                  style: MyTextStyle.sectionSubTitle1,
-                  children: <TextSpan>[
-                    if (controller.isOtpExpired == false) ...[
-                      buildTimerText(controller),
-                    ] else ...[
-                      TextSpan(
-                        text: controller.resendLoading ? "${MyStrings.resending.tr}..." : MyStrings.resendCode.tr,
-                        style: MyTextStyle.sectionSubTitle1.copyWith(
-                          decoration: TextDecoration.underline,
-                          decorationColor: MyColor.getPrimaryColor(),
-                          color: MyColor.getPrimaryColor(),
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            if (!controller.resendLoading) {
-                              controller.resendOtp();
-                            }
-                          },
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );

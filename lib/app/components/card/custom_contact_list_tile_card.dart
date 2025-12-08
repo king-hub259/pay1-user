@@ -17,7 +17,6 @@ class CustomContactListTileCard extends StatelessWidget {
   final Widget? leading;
   final Widget? trailing;
   final bool? showBorder;
-  final bool showLeading;
   final bool isPress;
 
   const CustomContactListTileCard({
@@ -37,7 +36,6 @@ class CustomContactListTileCard extends StatelessWidget {
     this.padding,
     this.margin,
     this.showBorder = true,
-    this.showLeading = true,
   });
 
   @override
@@ -66,21 +64,18 @@ class CustomContactListTileCard extends StatelessWidget {
           child: ListTile(
             minTileHeight: 0,
             minVerticalPadding: 0,
-            horizontalTitleGap: showLeading ? 8.w : 0.w,
-            minLeadingWidth: !showLeading ? 0 : null,
-            leading: showLeading
-                ? leading ??
-                    Ink(
-                      width: Dimensions.space40.w,
-                      height: Dimensions.space40.w,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: CachedNetworkImageProvider(imagePath ?? ""),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    )
-                : SizedBox(width: 0.w),
+            horizontalTitleGap: 8.w,
+            leading: leading ??
+                Ink(
+                  width: Dimensions.space40.w,
+                  height: Dimensions.space40.w,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: CachedNetworkImageProvider(imagePath ?? ""),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
             title: title?.isEmptyString == true
                 ? null
                 : Padding(

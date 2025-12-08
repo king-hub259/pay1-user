@@ -157,87 +157,85 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return TextSpan(text: timeText, style: MyTextStyle.sectionSubTitle1);
     }
 
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          //Code Verification
-          CustomAppCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Align(
-                  alignment: AlignmentDirectional.center,
-                  child: HeaderText(
-                    textAlign: TextAlign.center,
-                    text: MyStrings.smsVerification.tr,
-                    textStyle: MyTextStyle.headerH3.copyWith(
-                      color: MyColor.getHeaderTextColor(),
-                    ),
+    return Column(
+      children: [
+        //Code Verification
+        CustomAppCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: AlignmentDirectional.center,
+                child: HeaderText(
+                  textAlign: TextAlign.center,
+                  text: MyStrings.smsVerification.tr,
+                  textStyle: MyTextStyle.headerH3.copyWith(
+                    color: MyColor.getHeaderTextColor(),
                   ),
                 ),
-                spaceDown(Dimensions.space8),
-                Align(
-                  alignment: AlignmentDirectional.center,
-                  child: HeaderText(
-                    text: "${MyStrings.weHaveSentACodeTo.tr} +${widget.userModel?.dialCode}${widget.userModel?.mobile?.toNumberMask(unmaskedPrefix: 2, unmaskedSuffix: 2, maskChar: "•")}",
-                    textStyle: MyTextStyle.sectionSubTitle1.copyWith(color: MyColor.getBodyTextColor()),
-                  ),
+              ),
+              spaceDown(Dimensions.space8),
+              Align(
+                alignment: AlignmentDirectional.center,
+                child: HeaderText(
+                  text: "${MyStrings.weHaveSentACodeTo.tr} +${widget.userModel?.dialCode}${widget.userModel?.mobile?.toNumberMask(unmaskedPrefix: 2, unmaskedSuffix: 2, maskChar: "•")}",
+                  textStyle: MyTextStyle.sectionSubTitle1.copyWith(color: MyColor.getBodyTextColor()),
                 ),
-                spaceDown(Dimensions.space35),
-                OTPFieldWidget(
-                  // controller: controller.otpController,
-                  onChanged: (v) {
-                    controller.onChangeOtpWidgetText(value: v);
-                  },
-                ),
-                spaceDown(Dimensions.space10),
-              ],
-            ),
-          ),
-          spaceDown(Dimensions.space15),
-          CustomElevatedBtn(
-            radius: Dimensions.largeRadius.r,
-            isLoading: controller.submitLoading,
-            bgColor: MyColor.getPrimaryColor(),
-            text: MyStrings.verifyNow,
-            onTap: () {
-              controller.verifyYourSms(
-                onSuccess: () {
-                  _goToProfileComplete();
+              ),
+              spaceDown(Dimensions.space35),
+              OTPFieldWidget(
+                // controller: controller.otpController,
+                onChanged: (v) {
+                  controller.onChangeOtpWidgetText(value: v);
                 },
-              );
-            },
+              ),
+              spaceDown(Dimensions.space10),
+            ],
           ),
-          spaceDown(Dimensions.space24),
-          RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-              text: "${controller.isOtpExpired == false ? MyStrings.waitUtilTheTimerFinishes.tr : MyStrings.didNotReceiveCode.tr} ",
-              style: MyTextStyle.sectionSubTitle1,
-              children: <TextSpan>[
-                if (controller.isOtpExpired == false) ...[
-                  buildTimerText(controller),
-                ] else ...[
-                  TextSpan(
-                    text: controller.resendLoading ? "${MyStrings.resending.tr}..." : MyStrings.resendCode.tr,
-                    style: MyTextStyle.sectionSubTitle1.copyWith(
-                      decoration: TextDecoration.underline,
-                      decorationColor: MyColor.getPrimaryColor(),
-                      color: MyColor.getPrimaryColor(),
-                    ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        if (!controller.resendLoading) {
-                          controller.resendOtp();
-                        }
-                      },
+        ),
+        spaceDown(Dimensions.space15),
+        CustomElevatedBtn(
+          radius: Dimensions.largeRadius.r,
+          isLoading: controller.submitLoading,
+          bgColor: MyColor.getPrimaryColor(),
+          text: MyStrings.verifyNow,
+          onTap: () {
+            controller.verifyYourSms(
+              onSuccess: () {
+                _goToProfileComplete();
+              },
+            );
+          },
+        ),
+        spaceDown(Dimensions.space24),
+        RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            text: "${controller.isOtpExpired == false ? MyStrings.waitUtilTheTimerFinishes.tr : MyStrings.didNotReceiveCode.tr} ",
+            style: MyTextStyle.sectionSubTitle1,
+            children: <TextSpan>[
+              if (controller.isOtpExpired == false) ...[
+                buildTimerText(controller),
+              ] else ...[
+                TextSpan(
+                  text: controller.resendLoading ? "${MyStrings.resending.tr}..." : MyStrings.resendCode.tr,
+                  style: MyTextStyle.sectionSubTitle1.copyWith(
+                    decoration: TextDecoration.underline,
+                    decorationColor: MyColor.getPrimaryColor(),
+                    color: MyColor.getPrimaryColor(),
                   ),
-                ],
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      if (!controller.resendLoading) {
+                        controller.resendOtp();
+                      }
+                    },
+                ),
               ],
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

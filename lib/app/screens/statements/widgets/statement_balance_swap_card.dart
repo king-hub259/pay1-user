@@ -113,7 +113,7 @@ class StatementBalanceSwapCard extends StatelessWidget {
                 ),
                 spaceDown(Dimensions.space8),
                 Text(
-                  "${MyStrings.lastUpdate.tr} ${DateConverter.estimatedDateOrTime(DateTime.now())}",
+                  "${MyStrings.lastUpdate.tr} ${DateConverter.formatTimeAndDate(DateTime.now())}",
                   style: MyTextStyle.caption1Style.copyWith(
                     color: MyColor.getWhiteColor(),
                   ),

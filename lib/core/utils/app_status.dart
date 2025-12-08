@@ -35,8 +35,4 @@ class AppStatus {
   //Gift Card status
   static const String range = "RANGE";
   static const String fixed = "FIXED";
-
-  //Invetment type
-  static const String INVESTMENT_TYPE_FIXED = "1";
-  static const String INVESTMENT_TYPE_RANGE = "0";
 }

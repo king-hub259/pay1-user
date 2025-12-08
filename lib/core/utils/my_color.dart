@@ -42,8 +42,6 @@ class MyColor {
   static const Color redLightColor = Color(0xFFEF4444);
   static const Color skyBlueColor = Color(0xFF3B82F6);
   static const Color orangeColor = Color(0xFFF97316);
-  static const Color beigeColor = Color(0xFFfff8ea);
-  static const Color lemonadeColor = Color(0xFFe5f9ed);
 
   //Designs
 

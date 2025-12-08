@@ -6,11 +6,12 @@ import 'package:ovopay/app/components/image/my_asset_widget.dart';
 import 'package:ovopay/app/screens/bank_transfer_screen/controller/bank_transfer_controller.dart';
 import 'package:ovopay/app/screens/bank_transfer_screen/views/widgets/bank_transfer_amount_page.dart';
 import 'package:ovopay/app/screens/bank_transfer_screen/views/widgets/bank_transfer_dynamic_form_page.dart';
+import 'package:ovopay/app/screens/bank_transfer_screen/views/widgets/bank_transfer_pin_page.dart';
+import 'package:ovopay/app/screens/bank_transfer_screen/views/widgets/bank_transfer_select_bank_from_list_page.dart';
 import 'package:ovopay/core/data/repositories/modules/bank_transfer/bank_transfer_repo.dart';
 import 'package:ovopay/core/route/route.dart';
 import '../../../../../core/utils/util_exporter.dart';
-import 'widgets/bank_transfer_pin_page.dart';
-import 'widgets/bank_transfer_select_bank_from_list_page.dart';
+import 'bank_transfer_add_new_bank_screen.dart';
 
 class BankTransferScreen extends StatefulWidget {
   const BankTransferScreen({super.key});
@@ -25,16 +26,16 @@ class _BankTransferScreenState extends State<BankTransferScreen> {
 
   @override
   void initState() {
+    // Initialize dependencies
     Get.put(BankTransferRepo());
+
     final controller = Get.put(
       BankTransferController(bankTransferRepo: Get.find()),
     );
 
     super.initState();
-    // Add listener to track page changes
     _pageController.addListener(_pageChangeListener);
-
-    WidgetsBinding.instance.addPostFrameCallback((v) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       await controller.initController();
     });
   }
@@ -42,15 +43,12 @@ class _BankTransferScreenState extends State<BankTransferScreen> {
   void _pageChangeListener() {
     int newPage = _pageController.page?.round() ?? 0;
     if (newPage != _currentPage) {
-      setState(() {
-        _currentPage = newPage;
-      });
+      setState(() => _currentPage = newPage);
     }
   }
 
   @override
   void dispose() {
-    // Remove listener when the widget is disposed to avoid memory leaks
     _pageController.removeListener(_pageChangeListener);
     _pageController.dispose();
     super.dispose();
@@ -76,6 +74,18 @@ class _BankTransferScreenState extends State<BankTransferScreen> {
     });
   }
 
+  /* ----------  floating add button (only on bank-list page)  ---------- */
+  Widget? _floatingActionButton() {
+    if (_currentPage == 0) {
+      return FloatingActionButton(
+        onPressed: () => Get.to(() => const BankTransferAddNewBankAccountScreen())
+            ?.then((_) => setState(() {})),
+        child: const Icon(Icons.add),
+      );
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<BankTransferController>(
@@ -91,9 +101,8 @@ class _BankTransferScreenState extends State<BankTransferScreen> {
           actionButton: [
             if (_currentPage == 0)
               CustomAppCard(
-                onPressed: () {
-                  Get.toNamed(RouteHelper.bankTransferHistoryScreen);
-                },
+                onPressed: () =>
+                    Get.toNamed(RouteHelper.bankTransferHistoryScreen),
                 width: Dimensions.space40.w,
                 height: Dimensions.space40.w,
                 padding: EdgeInsetsDirectional.all(Dimensions.space8.w),
@@ -109,34 +118,24 @@ class _BankTransferScreenState extends State<BankTransferScreen> {
             spaceSide(Dimensions.space16.w),
           ],
           pageTitle: MyStrings.bankTransfer,
+          floatingActionButton: _floatingActionButton(),
           body: PageView(
             clipBehavior: Clip.none,
-            onPageChanged: (value) {
-              _currentPage = value;
-            },
             controller: _pageController,
             physics: const NeverScrollableScrollPhysics(),
             children: [
               BankTransferSelectBankFromListPageWidget(
                 context: context,
-                onSuccessCallback: () {
-                  _nextPage(goToPage: 1);
-                },
-                onSavedSuccessCallback: () {
-                  _nextPage(goToPage: 1);
-                },
+                onSuccessCallback: () => _nextPage(goToPage: 1),
+                onSavedSuccessCallback: () => _nextPage(goToPage: 1),
               ),
               BankTransferDynamicFormPage(
                 context: context,
-                onSuccessCallback: () {
-                  _nextPage(goToPage: 2);
-                },
+                onSuccessCallback: () => _nextPage(goToPage: 2),
               ),
               BankTransferAmountPage(
-                onSuccessCallback: () {
-                  _nextPage(goToPage: 3);
-                },
                 context: context,
+                onSuccessCallback: () => _nextPage(goToPage: 3),
               ),
               BankTransferPinVerificationPage(context: context),
             ],

@@ -51,9 +51,9 @@ class SingleCardTransactionListCard extends StatelessWidget {
                             title: "•••• •••• •••• ${item.virtualCard?.last4 ?? "••••"}",
                             subtitle: item.details ?? "",
                             balance: "${item.trxType ?? ""}${MyUtils.getUserAmount(item.amount ?? "")}",
-                            date: DateConverter.estimatedDateOrTime(
+                            date: DateConverter.convertIsoToString(
                               item.createdAt ?? "",
-                              customFormat: "dd/MM/yyyy hh:mm aa",
+                              outputFormat: "dd/MM/yyyy hh:mm aa",
                             ),
                             onPressed: () {},
                             trxType: item.trxType ?? "",

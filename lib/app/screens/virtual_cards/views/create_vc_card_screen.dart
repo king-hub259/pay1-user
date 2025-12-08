@@ -1014,10 +1014,10 @@ class _CreateVcCardScreenState extends State<CreateVcCardScreen> {
       );
 
       controller.selectedCardHolder?.dob = DateOfBirthModel(
-        day: DateConverter.estimatedDateOrTime(selectedDateTime, customFormat: "dd"),
-        month: DateConverter.estimatedDateOrTime(selectedDateTime, customFormat: "MM"),
-        year: DateConverter.estimatedDateOrTime(selectedDateTime, customFormat: "yyyy"),
-        fullText: DateConverter.estimatedDateOrTime(selectedDateTime),
+        day: DateConverter.estimatedDate(selectedDateTime, format: "dd"),
+        month: DateConverter.estimatedDate(selectedDateTime, format: "MM"),
+        year: DateConverter.estimatedDate(selectedDateTime, format: "yyyy"),
+        fullText: DateConverter.estimatedDate(selectedDateTime),
       );
       controller.update();
     }

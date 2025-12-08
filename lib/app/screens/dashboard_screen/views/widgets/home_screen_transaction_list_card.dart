@@ -81,9 +81,9 @@ class HomeScreenTransactionMenuCard extends StatelessWidget {
                           showBorder: !isLastIndex,
                           balance: MyUtils.getUserAmount(item.amount ?? ""),
                           trxType: "${item.trxType}",
-                          date: DateConverter.estimatedDateOrTime(
+                          date: DateConverter.convertIsoToString(
                             item.createdAt ?? "",
-                            customFormat: "dd/MM/yyyy hh:mm aa",
+                            outputFormat: "dd/MM/yyyy hh:mm aa",
                           ),
                           onPressed: () {},
                           remark: "${item.remark}",

@@ -55,13 +55,13 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ProfileImageWithUploadButtonWidget(
-                              imageUrl: controller.imageUrl,
-                              imageAlt: SharedPreferenceService.getUserFullName(),
-                              onChanged: (File file) {
-                                controller.imageFile = file;
-                              },
-                            ),
+                            // ProfileImageWithUploadButtonWidget(
+                            //   imageUrl: controller.imageUrl,
+                            //   imageAlt: SharedPreferenceService.getUserFullName(),
+                            //   onChanged: (File file) {
+                            //     controller.imageFile = file;
+                            //   },
+                            // ),
                             CustomElevatedBtn(
                               bgColor: MyColor.getScreenBgColor(),
                               borderColor: MyColor.getBorderColor(),

@@ -56,6 +56,7 @@ class LoginController extends BioMetricController {
         mobileController.text.toString(),
         pinController.text.toString(),
       );
+
       // Check if the response status code is 200 (success)
       if (model.statusCode == 200) {
         // Parse the response into the LoginResponseModel

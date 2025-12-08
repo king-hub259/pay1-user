@@ -23,9 +23,10 @@ class _MyQrCodeScreenState extends State<MyQrCodeScreen> {
   @override
   void initState() {
     super.initState();
-    var controller = Get.put(MyQrCodeController());
-    WidgetsBinding.instance.addPostFrameCallback((v) {
-      controller.getMyQrCodeData();
+    final controller = Get.put(MyQrCodeController());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.getMyQrCodeData();   // QR image
+      controller.getVirtualAccount(); // virtual account data
     });
   }
 
@@ -36,11 +37,14 @@ class _MyQrCodeScreenState extends State<MyQrCodeScreen> {
       body: GetBuilder<MyQrCodeController>(
         builder: (controller) {
           return SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: Dimensions.space16.w),
             child: CustomAppCard(
               child: Skeletonizer(
                 enabled: controller.isLoading,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    /* ----------  USER NAME & PHONE  ---------- */
                     HeaderText(
                       text: SharedPreferenceService.getUserFullName(),
                       textAlign: TextAlign.center,
@@ -48,7 +52,7 @@ class _MyQrCodeScreenState extends State<MyQrCodeScreen> {
                         color: MyColor.getHeaderTextColor(),
                       ),
                     ),
-                    spaceDown(Dimensions.space8),
+                    SizedBox(height: Dimensions.space8.h),
                     HeaderText(
                       text: SharedPreferenceService.getUserPhoneNumber(),
                       textAlign: TextAlign.center,
@@ -57,8 +61,22 @@ class _MyQrCodeScreenState extends State<MyQrCodeScreen> {
                         color: MyColor.getBodyTextColor(),
                       ),
                     ),
-                    spaceDown(Dimensions.space30),
+
+                    /* ----------  VIRTUAL ACCOUNT (VISIBLE ALWAYS)  ---------- */
+                    SizedBox(height: Dimensions.space20.h),
+                    _DetailRow(label: 'Account', value: controller.virtualAccount),
+                    SizedBox(height: Dimensions.space8.h),
+                    _DetailRow(label: 'Bank',     value: controller.virtualBank),
+                    SizedBox(height: Dimensions.space8.h),
+                    _DetailRow(label: 'Name',     value: controller.virtualAcctName.isNotEmpty
+                        ? controller.virtualAcctName
+                        : SharedPreferenceService.getUserFullName()),
+
+                    SizedBox(height: Dimensions.space30.h),
+
+                    /* ----------  QR CODE  ---------- */
                     Stack(
+                      alignment: Alignment.center,
                       children: [
                         MyAssetImageWidget(
                           isSvg: true,
@@ -72,34 +90,25 @@ class _MyQrCodeScreenState extends State<MyQrCodeScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(Dimensions.space30),
                             child: FittedBox(
-                              child: Column(
-                                children: [
-                                  if (controller.qrCodeLink == "") ...[
-                                    Center(
-                                      child: Container(
-                                        width: 220.w,
-                                        height: 220.h,
-                                        color: MyColor.black,
-                                      ),
-                                    ),
-                                  ] else ...[
-                                    Center(
-                                      child: MyNetworkImageWidget(
-                                        imageUrl: controller.qrCodeLink,
-                                        width: 220.w,
-                                        height: 220.h,
-                                        boxFit: BoxFit.contain,
-                                      ),
-                                    ),
-                                  ],
-                                ],
+                              child: controller.qrCodeLink.isEmpty
+                                  ? Container(
+                                width: 220.w,
+                                height: 220.h,
+                                color: MyColor.black,
+                              )
+                                  : MyNetworkImageWidget(
+                                imageUrl: controller.qrCodeLink,
+                                width: 220.w,
+                                height: 220.h,
+                                boxFit: BoxFit.contain,
                               ),
                             ),
                           ),
                         ),
                       ],
                     ),
-                    spaceDown(Dimensions.space24),
+
+                    SizedBox(height: Dimensions.space24.h),
                     HeaderText(
                       text: MyStrings.shareQrCode.tr,
                       textAlign: TextAlign.center,
@@ -108,7 +117,9 @@ class _MyQrCodeScreenState extends State<MyQrCodeScreen> {
                         color: MyColor.getBodyTextColor(),
                       ),
                     ),
-                    spaceDown(Dimensions.space30),
+                    SizedBox(height: Dimensions.space30.h),
+
+                    /* ----------  DOWNLOAD BUTTON  ---------- */
                     CustomElevatedBtn(
                       radius: Dimensions.largeRadius.r,
                       isLoading: controller.isDownloadLoading,
@@ -124,20 +135,32 @@ class _MyQrCodeScreenState extends State<MyQrCodeScreen> {
                       ),
                       bgColor: MyColor.getPrimaryColor(),
                       text: MyStrings.downloadQRCode.tr,
-                      onTap: () {
-                        controller.downloadAttachment(
-                          controller.qrCodeLink,
-                          "jpeg",
-                        );
-                      },
+                      onTap: () => controller.downloadAttachment(
+                        controller.qrCodeLink,
+                        "jpeg",
+                      ),
                     ),
-                    spaceDown(Dimensions.space10),
+                    SizedBox(height: Dimensions.space20.h),
                   ],
                 ),
               ),
             ),
           );
         },
+      ),
+    );
+  }
+
+  /* ----------------------------------------------------------
+   *  Helper widget so we do not repeat the same Text style
+   * --------------------------------------------------------*/
+  Widget _DetailRow({required String label, required String value}) {
+    return HeaderText(
+      text: '$label :  ${value.isNotEmpty ? value : '—'}',
+      textAlign: TextAlign.center,
+      textStyle: MyTextStyle.headerH3.copyWith(
+        fontWeight: FontWeight.w500,
+        color: MyColor.getHeaderTextColor(),
       ),
     );
   }

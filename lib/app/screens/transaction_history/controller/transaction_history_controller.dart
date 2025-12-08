@@ -70,12 +70,6 @@ class TransactionHistoryController extends GetxController {
         return "Top Up";
       case "cashback":
         return "Cash Back";
-      case "investment":
-        return "Investment";
-      case "investment_interest":
-        return "Investment Interest";
-      case "investment_capital_back":
-        return "Investment Capital Back";
       case null:
         return "Select A Remark";
       default:

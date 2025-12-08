@@ -17,8 +17,6 @@ import 'package:ovopay/app/screens/bank_transfer_screen/views/bank_transfer_scre
 import 'package:ovopay/app/screens/bill_pay_screen/views/bill_pay_history_screen.dart';
 import 'package:ovopay/app/screens/bill_pay_screen/views/bill_pay_screen.dart';
 import 'package:ovopay/app/screens/gift_screen/views/gift_history_screen.dart';
-import 'package:ovopay/app/screens/investment/investment_screen.dart';
-import 'package:ovopay/app/screens/investment/widgets/investment_history_screen.dart';
 import 'package:ovopay/app/screens/my_qr_code_screen/views/qr_code_login_screen.dart';
 import 'package:ovopay/app/screens/no_internet/no_internet_screen.dart';
 import 'package:ovopay/app/screens/page_content_screen/views/maintenance_content_screen.dart';
@@ -142,8 +140,6 @@ class RouteHelper {
   static const String virtualCardsScreen = "/cards_screen";
   static const String singleCardsScreen = "/single_cards_screen";
   static const String createVccCardScreen = "/create_vcc_card_screen";
-  static const String investmentScreen = "/investment_screen";
-  static const String investmentHistoryScreen = "/investment__history_screen";
 
   // Define your routes
   static List<GetPage> routes = [
@@ -549,18 +545,6 @@ class RouteHelper {
       name: createVccCardScreen,
       transitionDuration: const Duration(milliseconds: 400),
       page: () => CreateVcCardScreen(),
-      transition: Transition.fadeIn,
-    ),
-    GetPage(
-      name: investmentScreen,
-      transitionDuration: const Duration(milliseconds: 400),
-      page: () => InvestmentScreen(),
-      transition: Transition.fadeIn,
-    ),
-    GetPage(
-      name: investmentHistoryScreen,
-      transitionDuration: const Duration(milliseconds: 400),
-      page: () => InvestmentHistoryScreen(),
       transition: Transition.fadeIn,
     ),
   ];

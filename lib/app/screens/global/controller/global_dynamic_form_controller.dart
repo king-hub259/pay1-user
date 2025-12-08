@@ -178,11 +178,11 @@ class GlobalDynamicFormController extends GetxController {
         pickedTime.minute,
       );
 
-      formList[index].selectedValue = DateConverter.localDateTime(
+      formList[index].selectedValue = DateConverter.estimatedDateTime(
         selectedDateTime,
       );
       // formList[index].selectedValue = selectedDateTime.toIso8601String();
-      formList[index].textEditingController?.text = DateConverter.localDateTime(selectedDateTime);
+      formList[index].textEditingController?.text = DateConverter.estimatedDateTime(selectedDateTime);
       printX(formList[index].textEditingController?.text);
       printX(formList[index].selectedValue);
       update();
@@ -215,10 +215,10 @@ class GlobalDynamicFormController extends GetxController {
         pickedDate.day,
       );
 
-      formList[index].selectedValue = DateConverter.localDate(
+      formList[index].selectedValue = DateConverter.estimatedDate(
         selectedDateTime,
       );
-      formList[index].textEditingController?.text = DateConverter.localDate(
+      formList[index].textEditingController?.text = DateConverter.estimatedDate(
         selectedDateTime,
       );
       printX(formList[index].textEditingController?.text);
@@ -252,10 +252,10 @@ class GlobalDynamicFormController extends GetxController {
         pickedTime.minute,
       );
 
-      formList[index].selectedValue = DateConverter.localTime(
+      formList[index].selectedValue = DateConverter.estimatedTime(
         selectedDateTime,
       );
-      formList[index].textEditingController?.text = DateConverter.localTime(
+      formList[index].textEditingController?.text = DateConverter.estimatedTime(
         selectedDateTime,
       );
       printX(formList[index].textEditingController?.text);

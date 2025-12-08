@@ -116,7 +116,7 @@ class _SupportTicketListScreenState extends State<SupportTicketListScreen> {
                             priorityColor: TicketHelper.getPriorityColor(
                               controller.ticketList[index].priority ?? '0',
                             ),
-                            time: DateConverter.getTimeAgo(
+                            time: DateConverter.getFormattedSubtractTime(
                               controller.ticketList[index].createdAt ?? '',
                             ),
                           );

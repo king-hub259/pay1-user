@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ovosolution.ovopay"
+    namespace = "com.ovopay.tech"
     compileSdk = 36
     ndkVersion = "29.0.14206865"
 
@@ -25,7 +25,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.ovosolution.ovopay"
+        applicationId = "com.ovopay.tech"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

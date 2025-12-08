@@ -72,15 +72,6 @@ class _HomeScreenServiceMenuCardState extends State<HomeScreenServiceMenuCard> {
       },
     ),
     MenuItem(
-      icon: MyIcons.educationIcon,
-      label: MyStrings.education,
-      isActive: SharedPreferenceService.getModuleStatusByKey("education_fee"),
-      activeColor: MyColor.violateColor,
-      onTap: () {
-        Get.toNamed(RouteHelper.educationFeeScreen);
-      },
-    ),
-    MenuItem(
       icon: MyIcons.bankTransferIcon,
       label: MyStrings.bankTransfer,
       isActive: SharedPreferenceService.getModuleStatusByKey("bank_transfer"),
@@ -99,12 +90,12 @@ class _HomeScreenServiceMenuCardState extends State<HomeScreenServiceMenuCard> {
       },
     ),
     MenuItem(
-      icon: MyIcons.investment,
-      label: MyStrings.investment,
-      isActive: SharedPreferenceService.getModuleStatusByKey("investment"),
+      icon: MyIcons.educationIcon,
+      label: MyStrings.education,
+      isActive: SharedPreferenceService.getModuleStatusByKey("education_fee"),
       activeColor: MyColor.violateColor,
       onTap: () {
-        Get.toNamed(RouteHelper.investmentScreen);
+        Get.toNamed(RouteHelper.educationFeeScreen);
       },
     ),
     MenuItem(

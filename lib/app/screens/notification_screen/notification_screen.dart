@@ -120,9 +120,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      DateConverter.estimatedDateOrTime(
+                                      DateConverter.convertIsoToString(
                                         item.createdAt ?? "",
-                                        customFormat: "dd-MM-yyyy hh:mm aa",
+                                        outputFormat: "dd-MM-yyyy hh:mm aa",
                                       ),
                                       style: MyTextStyle.sectionSubTitle1.copyWith(
                                         color: MyColor.getBodyTextColor(),

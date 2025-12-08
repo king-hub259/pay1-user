@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:ovopay/core/data/controller/localization/localization_controller.dart';
 import 'package:ovopay/core/route/route.dart';
 import 'package:ovopay/core/utils/util_exporter.dart';
@@ -8,12 +9,13 @@ import 'package:ovopay/environment.dart';
 import 'package:toastification/toastification.dart';
 import 'core/data/services/service_exporter.dart';
 import 'core/di_service/di_services.dart' as di_service;
-import 'package:timezone/data/latest.dart' as tz;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //Stop Landscape
   MyUtils().stopLandscape();
+  // Initialize GetStorage
+  await GetStorage.init();
   // init shared preference
   await SharedPreferenceService.init();
   // inti fcm services
@@ -23,7 +25,6 @@ Future<void> main() async {
   //Dependency injection
   await di_service.initDependency();
   HttpOverrides.global = MyHttpOverrides();
-  tz.initializeTimeZones();
   runApp(OvoApp(languages: {}));
 }
 
@@ -48,7 +49,9 @@ class _OvoAppState extends State<OvoApp> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((t) {
-      Future.wait([precacheImage(AssetImage(MyImages.balanceCardBgImage), context)]);
+      Future.wait([
+        precacheImage(AssetImage(MyImages.balanceCardBgImage), context),
+      ]);
     });
   }
 
@@ -95,13 +98,20 @@ class _OvoAppState extends State<OvoApp> {
                 getPages: RouteHelper.routes,
                 locale: LocalizationController().locale,
                 translations: LanguageMessages(languages: widget.languages),
-                fallbackLocale: Locale(LocalizationController().locale.languageCode, LocalizationController().locale.countryCode),
+                fallbackLocale: Locale(
+                  LocalizationController().locale.languageCode,
+                  LocalizationController().locale.countryCode,
+                ),
                 useInheritedMediaQuery: true,
                 builder: (context, widget) {
                   return Theme(
-                    data: ThemeData.light().copyWith(scaffoldBackgroundColor: MyColor.getScreenBgColor()),
+                    data: ThemeData.light().copyWith(
+                      scaffoldBackgroundColor: MyColor.getScreenBgColor(),
+                    ),
                     child: MediaQuery(
-                      data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
+                      data: MediaQuery.of(
+                        context,
+                      ).copyWith(textScaler: TextScaler.linear(1.0)),
                       child: widget!,
                     ),
                   );

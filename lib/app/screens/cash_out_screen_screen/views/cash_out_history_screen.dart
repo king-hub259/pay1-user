@@ -114,9 +114,9 @@ class _CashOutHistoryScreenState extends State<CashOutHistoryScreen> {
                                       "amount": MyUtils.getUserAmount(
                                         item.amount ?? "",
                                       ),
-                                      "date": DateConverter.estimatedDateOrTime(
+                                      "date": DateConverter.convertIsoToString(
                                         item.createdAt ?? "",
-                                        customFormat: "dd-MM-yyyy",
+                                        outputFormat: "dd-MM-yyyy",
                                       ),
                                     }),
                                     titleStyle: MyTextStyle.sectionSubTitle1.copyWith(fontWeight: FontWeight.w600),
@@ -212,10 +212,9 @@ class _CashOutHistoryScreenState extends State<CashOutHistoryScreen> {
                     color: MyColor.getHeaderTextColor(),
                   ),
                   header: MyStrings.time,
-                  body: DateConverter.estimatedDateOrTime(
+                  body: DateConverter.isoToLocalDateAndTime(
                     item.createdAt ?? "0",
                   ),
-                  isBodyEllipsis: false,
                   space: 5,
                   crossAxisAlignment: CrossAxisAlignment.end,
                 ),
