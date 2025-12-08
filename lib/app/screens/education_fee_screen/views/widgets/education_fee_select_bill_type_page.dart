@@ -129,7 +129,7 @@ class EducationFeeSelectAndSearchInstitutePageWidget extends StatelessWidget {
                                 },
                                 imagePath: item.getInstituteImageUrl() ?? "",
                                 title: "${item.name}",
-                                subtitle: "${billPayController.educationInstituteDataList.firstWhere((e) => e.id?.toString() == item.categoryId?.toString()).name}",
+                                subtitle: "${billPayController.educationCategoryDataList.firstWhere((e) => e.id?.toString() == item.categoryId?.toString()).name}",
                                 showBorder: !isLastIndex,
                                 titleStyle: MyTextStyle.sectionSubTitle1.copyWith(fontWeight: FontWeight.w600),
                                 subtitleStyle: MyTextStyle.caption2Style.copyWith(

@@ -188,11 +188,11 @@ class KycController extends GetxController {
         pickedTime.minute,
       );
 
-      formList[index].selectedValue = DateConverter.estimatedDateTime(
+      formList[index].selectedValue = DateConverter.localDateTime(
         selectedDateTime,
       );
       // formList[index].selectedValue = selectedDateTime.toIso8601String();
-      formList[index].textEditingController?.text = DateConverter.estimatedDateTime(selectedDateTime);
+      formList[index].textEditingController?.text = DateConverter.localDateTime(selectedDateTime);
       printX(formList[index].textEditingController?.text);
       printX(formList[index].selectedValue);
       update();
@@ -225,10 +225,10 @@ class KycController extends GetxController {
         pickedDate.day,
       );
 
-      formList[index].selectedValue = DateConverter.estimatedDate(
+      formList[index].selectedValue = DateConverter.localDate(
         selectedDateTime,
       );
-      formList[index].textEditingController?.text = DateConverter.estimatedDate(
+      formList[index].textEditingController?.text = DateConverter.localDate(
         selectedDateTime,
       );
       printX(formList[index].textEditingController?.text);
@@ -262,10 +262,10 @@ class KycController extends GetxController {
         pickedTime.minute,
       );
 
-      formList[index].selectedValue = DateConverter.estimatedTime(
+      formList[index].selectedValue = DateConverter.localTime(
         selectedDateTime,
       );
-      formList[index].textEditingController?.text = DateConverter.estimatedTime(
+      formList[index].textEditingController?.text = DateConverter.localTime(
         selectedDateTime,
       );
       printX(formList[index].textEditingController?.text);

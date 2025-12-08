@@ -69,8 +69,9 @@ class SentRequestTabWidget extends StatelessWidget {
                             imagePath: item.requestReceiver?.getUserImageUrl(),
                             title: item.requestReceiver?.getFullName() ?? "Unknown",
                             subtitle: "+${item.requestReceiver?.getUserMobileNo(withCountryCode: true) ?? "N/A"}",
-                            trailingTitle: DateConverter.isoStringToLocalDateOnly(
+                            trailingTitle: DateConverter.estimatedDateOrTime(
                               item.createdAt ?? "0",
+                              formatType: DateFormatType.onlyDate,
                             ),
                             trailingSubtitle: MyUtils.getUserAmount(
                               item.amount ?? "0",
@@ -189,9 +190,10 @@ class SentRequestTabWidget extends StatelessWidget {
                         color: MyColor.getHeaderTextColor(),
                       ),
                       header: MyStrings.time,
-                      body: DateConverter.isoToLocalDateAndTime(
+                      body: DateConverter.estimatedDateOrTime(
                         item.createdAt ?? "0",
                       ),
+                      isBodyEllipsis: false,
                       space: 5,
                       crossAxisAlignment: CrossAxisAlignment.end,
                     ),

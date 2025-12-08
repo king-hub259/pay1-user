@@ -112,9 +112,9 @@ class _EducationFeeHistoryScreenState extends State<EducationFeeHistoryScreen> {
                                       "amount": MyUtils.getUserAmount(
                                         item.amount ?? "",
                                       ),
-                                      "date": DateConverter.convertIsoToString(
+                                      "date": DateConverter.estimatedDateOrTime(
                                         item.createdAt ?? "",
-                                        outputFormat: "dd-MM-yyyy",
+                                        customFormat: "dd-MM-yyyy",
                                       ),
                                     }),
                                     titleStyle: MyTextStyle.sectionSubTitle1.copyWith(fontWeight: FontWeight.w600),
@@ -234,9 +234,10 @@ class _EducationFeeHistoryScreenState extends State<EducationFeeHistoryScreen> {
                     color: MyColor.getHeaderTextColor(),
                   ),
                   header: MyStrings.time,
-                  body: DateConverter.isoToLocalDateAndTime(
+                  body: DateConverter.estimatedDateOrTime(
                     item.createdAt ?? "0",
                   ),
+                  isBodyEllipsis: false,
                   space: 5,
                   crossAxisAlignment: CrossAxisAlignment.end,
                 ),

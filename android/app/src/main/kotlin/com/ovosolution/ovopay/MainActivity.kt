@@ -1,4 +1,4 @@
-package com.ovopay.tech
+package com.ovosolution.ovopay
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

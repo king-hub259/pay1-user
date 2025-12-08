@@ -15,6 +15,7 @@ class MyIcons {
   static const String cashOutIcon = "assets/icons/cash_out.svg";
   static const String sendIcon = "assets/icons/send_icon.svg";
   static const String walletAddIcon = "assets/icons/wallet_add_icon.svg";
+  static const String investment = "assets/icons/investment_two.svg";
   static const String walletIcon = "assets/icons/wallet_icon.svg";
   static const String walletQrCodeIcon = "assets/icons/wallet_qr_code_icon.svg";
   static const String bankTransferIcon = "assets/icons/bank_transfer_icon.svg";

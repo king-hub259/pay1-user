@@ -116,6 +116,7 @@ class GeneralSetting {
   String? currencyFormat;
   String? timeFormat;
   String? dateFormat;
+  String? timezone;
   String? allowPrecision;
   String? thousandSeparator;
   List<String>? supportedOtpType;
@@ -173,6 +174,7 @@ class GeneralSetting {
     this.currencyFormat,
     this.timeFormat,
     this.dateFormat,
+    this.timezone,
     this.allowPrecision,
     this.thousandSeparator,
     this.supportedOtpType,
@@ -231,6 +233,7 @@ class GeneralSetting {
         currencyFormat: json["currency_format"]?.toString(),
         timeFormat: json["time_format"]?.toString(),
         dateFormat: json["date_format"]?.toString(),
+        timezone: json["timezone"]?.toString(),
         allowPrecision: json["allow_precision"]?.toString(),
         thousandSeparator: json["thousand_separator"]?.toString(),
         supportedOtpType: json["supported_otp_type"] == null ? [] : List<String>.from(json["supported_otp_type"]!.map((x) => x)),
@@ -289,6 +292,7 @@ class GeneralSetting {
         "currency_format": currencyFormat,
         "time_format": timeFormat,
         "date_format": dateFormat,
+        "timezone": timezone,
         "allow_precision": allowPrecision,
         "thousand_separator": thousandSeparator,
         "supported_otp_type": supportedOtpType == null ? [] : List<dynamic>.from(supportedOtpType!.map((x) => x)),

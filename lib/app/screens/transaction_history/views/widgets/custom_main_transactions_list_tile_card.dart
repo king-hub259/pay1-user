@@ -135,6 +135,12 @@ final List<TransActionIconItem> transactionIconsList = [
     isActive: true,
     activeColor: MyColor.redLightColor,
   ),
+  TransActionIconItem(
+    icon: MyIcons.investment,
+    label: ["investment", "investment_interest", "investment_capital_back"],
+    isActive: true,
+    activeColor: MyColor.violateColor,
+  ),
 ];
 
 class CustomMainTransactionListTileCard extends StatelessWidget {
@@ -390,28 +396,7 @@ class CustomMainTransactionListTileCard extends StatelessWidget {
     final remark = item.remark ?? "";
 
     // Case 1: Remarks that should display `otherData.title`
-    const remarksWithOtherData = {
-      "send_money",
-      "cash_in",
-      "cash_out",
-      "make_payment",
-      "request_money_accept",
-      "requested_money_fund_added",
-      "receive_money",
-      "education_fee",
-      "reject_education_fee",
-      "bank_transfer",
-      "reject_bank_transfer",
-      "utility_bill",
-      "reject_utility_bill",
-      "mobile_recharge",
-      "reject_mobile_recharge",
-      "top_up",
-      "microfinance",
-      "reject_microfinance",
-      "donation",
-      "gift_card_purchase",
-    };
+    const remarksWithOtherData = {"send_money", "cash_in", "cash_out", "make_payment", "request_money_accept", "requested_money_fund_added", "receive_money", "education_fee", "reject_education_fee", "bank_transfer", "reject_bank_transfer", "utility_bill", "reject_utility_bill", "mobile_recharge", "reject_mobile_recharge", "top_up", "microfinance", "reject_microfinance", "donation", "gift_card_purchase", "investment", "investment_interest", "investment_capital_back"};
 
     if (remarksWithOtherData.contains(remark)) {
       return item.otherData?.title ?? "";

@@ -10,6 +10,7 @@ import 'package:ovopay/app/components/text/header_text_smaller.dart';
 import 'package:ovopay/app/screens/bank_transfer_screen/controller/bank_transfer_controller.dart';
 import 'package:ovopay/app/screens/global/controller/global_dynamic_form_controller.dart';
 import 'package:ovopay/app/screens/global/views/dynamic_form_widget_view.dart';
+
 import '../../../../../core/utils/util_exporter.dart';
 
 class BankTransferDynamicFormPage extends StatefulWidget {
@@ -19,6 +20,7 @@ class BankTransferDynamicFormPage extends StatefulWidget {
     required this.onSuccessCallback,
   });
   final VoidCallback onSuccessCallback;
+
   final BuildContext context;
 
   @override
@@ -27,7 +29,6 @@ class BankTransferDynamicFormPage extends StatefulWidget {
 
 class _BankTransferDynamicFormPageState extends State<BankTransferDynamicFormPage> {
   final formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<BankTransferController>(
@@ -46,7 +47,9 @@ class _BankTransferDynamicFormPageState extends State<BankTransferDynamicFormPag
                           width: Dimensions.space45.w,
                           height: Dimensions.space45.w,
                           radius: Dimensions.largeRadius.r,
-                          padding: EdgeInsetsDirectional.all(Dimensions.space4.w),
+                          padding: EdgeInsetsDirectional.all(
+                            Dimensions.space4.w,
+                          ),
                           child: MyNetworkImageWidget(
                             boxFit: BoxFit.scaleDown,
                             imageUrl: controller.selectedBank?.getBankImageUrl() ?? "",
@@ -81,11 +84,28 @@ class _BankTransferDynamicFormPageState extends State<BankTransferDynamicFormPag
                         text: "${MyStrings.accountInformation.tr} ",
                       ),
                       spaceDown(Dimensions.space24),
-
-                      // ACCOUNT NUMBER COMES FIRST
                       RoundedTextField(
                         forceFillColor: false,
-                        readOnly: false,
+                        readOnly: controller.selectedMyAccount != null,
+                        isRequired: true,
+                        controller: controller.bankAccountNameController,
+                        showLabelText: true,
+                        labelText: MyStrings.accountName,
+                        hintText: "",
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value.toString().isEmpty) {
+                            return MyStrings.kAccountNameNullError.tr;
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                      spaceDown(Dimensions.space16),
+                      RoundedTextField(
+                        forceFillColor: false,
+                        readOnly: controller.selectedMyAccount != null,
                         isRequired: true,
                         controller: controller.bankAccountNumberController,
                         showLabelText: true,
@@ -94,54 +114,22 @@ class _BankTransferDynamicFormPageState extends State<BankTransferDynamicFormPag
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.number,
                         textInputFormatter: [
-                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(
+                            RegExp(r'[0-9.]'),
+                          ), // Allows digits and a decimal point
+                          FilteringTextInputFormatter.deny(
+                            RegExp(r'(\.\d{30,})'),
+                          ), // Limits decimal places (optional, adjust as needed)
                         ],
                         validator: (value) {
                           if (value.toString().isEmpty) {
                             return MyStrings.kAccountNumberNullError.tr;
-                          } else if (value.toString().length < 10) {
-                            return "Account number must be 10 digits";
-                          } else {
-                            return null;
-                          }
-                        },
-                        onChanged: (value) {
-                          print("🔤 Account number changed: $value");
-                          // Auto-verify account number when user types
-                          if (value.length == 10) {
-                            print("✅ 10 digits reached, calling verification...");
-                            controller.verifyAccountNumber();
-                          } else {
-                            // Clear account name if user deletes digits
-                            controller.bankAccountNameController.clear();
-                            controller.update();
-                          }
-                        },
-                      ),
-                      spaceDown(Dimensions.space16),
-
-                      // ACCOUNT NAME - AUTO-FETCHED FROM BACKEND
-                      RoundedTextField(
-                        forceFillColor: false,
-                        readOnly: true,
-                        isRequired: true,
-                        controller: controller.bankAccountNameController,
-                        showLabelText: true,
-                        labelText: MyStrings.accountName,
-                        hintText: controller.isVerifyingAccount ? "Verifying account..." : "Will auto-fill from bank",
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value.toString().isEmpty) {
-                            return "Please verify account number first";
                           } else {
                             return null;
                           }
                         },
                       ),
                       spaceDown(Dimensions.space20),
-
                       if (controller.selectedBank != null) ...[
                         DynamicFormWidgetView(
                           formList: controller.selectedBank?.form?.formData?.list ?? [],
@@ -154,6 +142,7 @@ class _BankTransferDynamicFormPageState extends State<BankTransferDynamicFormPag
               ),
               spaceDown(Dimensions.space15),
               AppMainSubmitButton(
+                // isActive: Get.find<GlobalDynamicFormController>().hasError().isEmpty,
                 text: MyStrings.continueText,
                 onTap: () {
                   if (formKey.currentState?.validate() ?? false) {

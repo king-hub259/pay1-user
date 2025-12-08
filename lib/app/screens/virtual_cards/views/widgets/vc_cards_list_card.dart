@@ -47,7 +47,7 @@ class VcCardsListWidget extends StatelessWidget {
                         color: item.status == AppStatus.VIRTUAL_CARD_CANCELED ? null : MyColor.white,
                         boxFit: BoxFit.contain,
                       ),
-                      validFrom: '${DateConverter.convertIsoToString(item.createdAt ?? DateTime.now().toIso8601String(), outputFormat: "MM")}/${DateConverter.convertIsoToString(item.createdAt ?? DateTime.now().toIso8601String(), outputFormat: "yy")}',
+                      validFrom: '${DateConverter.estimatedDateOrTime(item.createdAt ?? DateTime.now().toIso8601String(), customFormat: "MM")}/${DateConverter.estimatedDateOrTime(item.createdAt ?? DateTime.now().toIso8601String(), customFormat: "yy")}',
                       validThru: item.formatCardExpiry(),
                       showValidThru: true,
                       balance: AppConverter.formatNumberDouble(item.balance ?? ""),

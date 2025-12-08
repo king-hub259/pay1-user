@@ -39,7 +39,6 @@ class MyCustomScaffold extends StatelessWidget {
       systemNavigationBarColor: appBarBgColor ?? MyColor.white,
       child: Scaffold(
         backgroundColor: screenBgColor ?? MyColor.getScreenBgColor(),
-        resizeToAvoidBottomInset: false,
         appBar: hideAppBar == true
             ? null
             : PreferredSize(

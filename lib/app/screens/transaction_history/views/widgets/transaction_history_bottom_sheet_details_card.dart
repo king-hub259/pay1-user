@@ -95,9 +95,10 @@ class TransactionHistoryBottomSheetDetailsCard extends StatelessWidget {
                     color: MyColor.getHeaderTextColor(),
                   ),
                   header: MyStrings.time,
-                  body: DateConverter.isoToLocalDateAndTime(
+                  body: DateConverter.estimatedDateOrTime(
                     item.createdAt ?? "0",
                   ),
+                  isBodyEllipsis: false,
                   space: 5,
                   crossAxisAlignment: CrossAxisAlignment.end,
                 ),

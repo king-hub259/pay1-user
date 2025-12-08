@@ -351,7 +351,7 @@ class AppDialogs {
     required Function onFinish,
     Function? onWaiting,
     required String title,
-    required Widget userDetailsWidget,
+    required Widget? userDetailsWidget,
     required Widget cashDetailsWidget,
   }) {
     return showDialog(
@@ -437,7 +437,7 @@ class AppDialogs {
 
                           spaceDown(Dimensions.space30),
                           //body
-                          userDetailsWidget,
+                          userDetailsWidget ?? SizedBox(),
                           spaceDown(Dimensions.space15),
                           cashDetailsWidget,
                           spaceDown(Dimensions.space30),

@@ -59,9 +59,9 @@ class CardScreenTransactionMenuCard extends StatelessWidget {
                                 title: "•••• •••• •••• ${item.virtualCard?.last4 ?? "••••"}",
                                 subtitle: item.details ?? "",
                                 balance: "${item.trxType ?? ""}${MyUtils.getUserAmount(item.amount ?? "")}",
-                                date: DateConverter.convertIsoToString(
+                                date: DateConverter.estimatedDateOrTime(
                                   item.createdAt ?? "",
-                                  outputFormat: "dd/MM/yyyy hh:mm aa",
+                                  customFormat: "dd/MM/yyyy hh:mm aa",
                                 ),
                                 onPressed: () {},
                                 trxType: item.trxType ?? "",

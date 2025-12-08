@@ -568,9 +568,8 @@ class _AnimatedFlippingCardState extends State<AnimatedFlippingCard> with Ticker
 
           final transformationMatrix = Matrix4.identity()
             ..setEntry(3, 2, 0.001)
-            ..scale(clampedScale, clampedScale, clampedScale)
+            ..scaleByDouble(clampedScale, clampedScale, clampedScale, 1)
             ..rotateY(rotationValue);
-
 
           return Transform(
             alignment: Alignment.center,

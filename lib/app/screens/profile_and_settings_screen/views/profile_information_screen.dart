@@ -50,11 +50,11 @@ class _ProfileInformationScreenState extends State<ProfileInformationScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // ProfileImageWithUploadButtonWidget(
-                        //   imageUrl: SharedPreferenceService.getUserImage(),
-                        //   imageAlt: SharedPreferenceService.getUserFullName(),
-                        //   showUploadIcon: false,
-                        // ),
+                        ProfileImageWithUploadButtonWidget(
+                          imageUrl: SharedPreferenceService.getUserImage(),
+                          imageAlt: SharedPreferenceService.getUserFullName(),
+                          showUploadIcon: false,
+                        ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [

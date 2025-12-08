@@ -70,7 +70,7 @@ class TicketListItem extends StatelessWidget {
                 ),
                 spaceSide(Dimensions.space5),
                 Text(
-                  DateConverter.getFormattedSubtractTime(
+                  DateConverter.getTimeAgo(
                     messages.createdAt ?? '',
                   ),
                   style: MyTextStyle.caption2Style.copyWith(

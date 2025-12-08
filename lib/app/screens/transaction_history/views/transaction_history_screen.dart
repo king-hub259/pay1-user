@@ -143,9 +143,9 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                                       item.amount ?? "",
                                     ),
                                     trxType: "${item.trxType}",
-                                    date: DateConverter.convertIsoToString(
+                                    date: DateConverter.estimatedDateOrTime(
                                       item.createdAt ?? "",
-                                      outputFormat: "dd/MM/yyyy hh:mm aa",
+                                      customFormat: "dd/MM/yyyy hh:mm aa",
                                     ),
                                     onPressed: () {},
                                     remark: "${item.remark}",

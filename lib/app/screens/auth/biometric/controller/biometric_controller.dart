@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'package:flutter/services.dart';          // PlatformException
+import 'package:local_auth/local_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:local_auth/local_auth.dart';
-import 'package:local_auth/error_codes.dart' as auth_error;
-
 import 'package:ovopay/app/components/snack_bar/show_custom_snackbar.dart';
 import 'package:ovopay/core/data/models/profile/profile_response_model.dart';
 import 'package:ovopay/core/data/repositories/biometric/biometric_repo.dart';
@@ -12,181 +9,178 @@ import 'package:ovopay/core/data/services/shared_pref_service.dart';
 import '../../../../../core/utils/util_exporter.dart';
 
 class BioMetricController extends GetxController {
-  /* ---------- local_auth ---------- */
   final LocalAuthentication _auth = LocalAuthentication();
 
-  /* ---------- repo / UI ---------- */
-  final BiometricRepo biometricRepo = BiometricRepo();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController pinCodeController = TextEditingController();
+  BiometricRepo biometricRepo = BiometricRepo();
+  bool isLoading = false;
+  TextEditingController passwordController = TextEditingController();
 
-  /* ---------- observable ---------- */
-  final RxBool isLoading = false.obs;
-  final RxBool isDeviceSupportBiometric = false.obs;
-  final RxBool isBiometricEnabled = false.obs;
-  final RxList<BiometricType> availableBiometrics = <BiometricType>[].obs;
-  final RxBool hasFaceID = false.obs;
-  final RxBool hasFingerprint = false.obs;
-  final RxBool isShowBioMetricAccountPinBox = false.obs;
-  final RxBool isPinValidateLoading = false.obs;
+  var isDeviceSupportBiometric = false;
+  var isBiometricEnabled = false;
 
-  /* ---------- life-cycle ---------- */
-  @override
-  void onInit() {
-    super.onInit();
-    loadBiometricPreference();
-    checkAvailableBiometrics();
-  }
+  var availableBiometrics = <BiometricType>[];
+  var hasFaceID = false;
+  var hasFingerprint = false;
 
-  /* ---------- preferences ---------- */
   Future<void> loadBiometricPreference() async {
-    isBiometricEnabled.value = SharedPreferenceService.getBioMetricStatus();
+    isBiometricEnabled = SharedPreferenceService.getBioMetricStatus();
+    update();
   }
 
-  /* ---------- availability ---------- */
   Future<void> checkAvailableBiometrics() async {
     try {
-      isDeviceSupportBiometric.value = await _auth.isDeviceSupported();
-      if (!isDeviceSupportBiometric.value) return;
-
-      final List<BiometricType> biometrics =
-      await _auth.getAvailableBiometrics();
-      availableBiometrics.assignAll(biometrics);
-      hasFaceID.value = biometrics.contains(BiometricType.face);
-      hasFingerprint.value = biometrics.contains(BiometricType.fingerprint);
+      isDeviceSupportBiometric = await _auth.isDeviceSupported();
+      if (isDeviceSupportBiometric) {
+        final biometrics = await _auth.getAvailableBiometrics();
+        availableBiometrics = biometrics;
+        update();
+        // Check if Face ID or Fingerprint is available
+        hasFaceID = biometrics.contains(BiometricType.face);
+        hasFingerprint = biometrics.contains(BiometricType.fingerprint);
+        update();
+      }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to get biometric availability: $e');
+      Get.snackbar("Error", "Failed to get biometric availability: $e");
     }
   }
 
-  /* ---------- toggle ---------- */
   Future<void> toggleBiometric(bool enable) async {
     if (enable) {
-      final ok = await _authenticateWithBiometrics();
-      if (ok) {
+      bool isAuthenticated = await _authenticateWithBiometrics();
+      if (isAuthenticated) {
         await SharedPreferenceService.setBioMetricStatus(true);
-        isBiometricEnabled.value = true;
+        isBiometricEnabled = true;
+        update();
       }
     } else {
       await SharedPreferenceService.setBioMetricStatus(false);
-      isBiometricEnabled.value = false;
+      isBiometricEnabled = false;
+      update();
     }
   }
 
-  /* ---------- enable / disable ---------- */
-  Future<void> enableBiometric({required VoidCallback onSuccess}) async {
-    final ok = await _authenticateWithBiometrics();
-    if (ok) {
+  Future<void> enableBiometric({required Function() onSuccess}) async {
+    bool isAuthenticated = await _authenticateWithBiometrics();
+    printX(isAuthenticated);
+    if (isAuthenticated) {
       await setBioMetric(
         onSuccess: () async {
           await SharedPreferenceService.setBioMetricStatus(true);
-          isShowBioMetricAccountPinBox.value = false;
-          isBiometricEnabled.value = true;
+          isShowBioMetricAccountPinBox = false;
+          isBiometricEnabled = true;
           onSuccess();
         },
         onDisableSuccess: () {},
       );
+
+      update();
     }
   }
 
-  Future<void> disableBiometric({required VoidCallback onSuccess}) async {
-    final ok = await _authenticateWithBiometrics();
-    if (ok) {
+  Future<void> disableBiometric({required Function() onSuccess}) async {
+    bool isAuthenticated = await _authenticateWithBiometrics();
+    printX(isAuthenticated);
+    if (isAuthenticated) {
       await setBioMetric(
-        onSuccess: () {},
+        onSuccess: () async {},
         onDisableSuccess: () async {
           await SharedPreferenceService.setBioMetricStatus(false);
-          isBiometricEnabled.value = false;
-          isShowBioMetricAccountPinBox.value = false;
+          isBiometricEnabled = false;
+          isShowBioMetricAccountPinBox = false;
           onSuccess();
         },
       );
+      update();
     }
   }
 
-  /* ---------- login flow ---------- */
   Future<void> checkBiometric({
-    required VoidCallback onSuccess,
+    required Function() onSuccess,
     bool fromLogin = false,
   }) async {
-    final ok = await _authenticateWithBiometrics(fromLogin: fromLogin);
-    if (ok) onSuccess();
+    bool isAuthenticated = await _authenticateWithBiometrics(
+      fromLogin: fromLogin,
+    );
+    printW(isAuthenticated);
+    if (isAuthenticated) {
+      onSuccess();
+    }
   }
 
-  /* ---------- private auth ---------- */
   Future<bool> _authenticateWithBiometrics({bool fromLogin = false}) async {
     try {
       return await _auth.authenticate(
-        localizedReason: fromLogin
-            ? 'Please provide your device pin to login'
-            : 'Please authenticate to enable biometrics',
-        options: const AuthenticationOptions(
-          biometricOnly: true,
-          stickyAuth: true,
-        ),
+        localizedReason: fromLogin ? 'Please provide your device pin to login' : 'Please authenticate to enable biometrics',
+        biometricOnly: true,
+        persistAcrossBackgrounding: true,
       );
-    } on PlatformException catch (e) {
-      switch (e.code) {
-        case auth_error.notAvailable:          // ← official constant
-          CustomSnackBar.error(errorList: ['Biometrics is not available']);
-          return false;
-        case auth_error.notEnrolled:           // ← official constant
-          CustomSnackBar.error(errorList: ['Biometrics is not enrolled']);
-          return false;
-        default:
-          printE('Authentication error: $e');
-          return false;
+    } on LocalAuthException catch (e) {
+      if (e.code == LocalAuthExceptionCode.noBiometricHardware) {
+        CustomSnackBar.error(errorList: ["Biometrics is not available"]);
+        return false;
+      } else if (e.code == LocalAuthExceptionCode.noBiometricsEnrolled) {
+        CustomSnackBar.error(errorList: ["Biometrics is not enrolled"]);
+        return false;
+      } else {
+        return false;
       }
     } catch (e) {
-      printE('Unexpected error: $e');
+      printE('Authentication error: $e');
       return false;
     }
   }
 
-  /* ---------- PIN box ---------- */
-  void toggleIsShowAccountPinBox() =>
-      isShowBioMetricAccountPinBox.toggle();
+  //Delete account
 
-  /* ---------- API calls ---------- */
+  TextEditingController pinCodeController = TextEditingController();
+  bool isShowBioMetricAccountPinBox = false;
+  bool isPinValidateLoading = false;
+
+  void toggleIsShowAccountPinBox() {
+    isShowBioMetricAccountPinBox = !isShowBioMetricAccountPinBox;
+    update();
+  }
+
   Future<void> setBioMetric({
-    required VoidCallback onSuccess,
-    required VoidCallback onDisableSuccess,
+    required Function() onSuccess,
+    required Function() onDisableSuccess,
   }) async {
     try {
-      isPinValidateLoading.value = true;
+      isPinValidateLoading = true;
+      update();
 
-      // Step-1: validate PIN
+      // Step 1: Validate PIN
       final pinResponse = await biometricRepo.checkPinOfAccount(
-        pin: pinCodeController.text.trim(),
+        pin: pinCodeController.text,
       );
       if (pinResponse.statusCode != 200) {
         _handleError([pinResponse.message]);
         return;
       }
 
-      final pinCheckResponse =
-      ProfileResponseModel.fromJson(pinResponse.responseJson);
-      if (pinCheckResponse.status?.toLowerCase() !=
-          AppStatus.SUCCESS.toLowerCase()) {
-        _handleError(pinCheckResponse.message ?? []);
+      final pinCheckResponse = ProfileResponseModel.fromJson(
+        pinResponse.responseJson,
+      );
+      if (pinCheckResponse.status?.toLowerCase() != AppStatus.SUCCESS.toLowerCase()) {
+        _handleError(pinCheckResponse.message);
         return;
       }
-
       pinCodeController.clear();
 
-      // Step-2: success callbacks
+      // Step 2: Set bio
       onSuccess();
       onDisableSuccess();
     } catch (e) {
       CustomSnackBar.error(errorList: [MyStrings.requestFail]);
     } finally {
-      isPinValidateLoading.value = false;
+      isPinValidateLoading = false;
+      update();
     }
   }
 
-  /* ---------- helper ---------- */
   void _handleError(List<String>? errorMessage) {
     CustomSnackBar.error(errorList: errorMessage ?? [MyStrings.requestFail]);
-    isPinValidateLoading.value = false;
+    isPinValidateLoading = false;
+    update();
   }
 }

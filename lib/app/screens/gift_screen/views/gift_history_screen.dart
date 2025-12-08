@@ -124,7 +124,7 @@ class _GiftHistoryScreenState extends State<GiftHistoryScreen> {
                                     imagePath: item.giftCard?.logoUrls?.first ?? "",
                                     title: item.giftCard?.productName ?? "Unknown",
                                     subtitle: item.recipientEmail ?? "",
-                                    trailingTitle: DateConverter.isoStringToLocalDateOnly(
+                                    trailingTitle: DateConverter.estimatedDateOrTime(
                                       item.updatedAt ?? "0",
                                     ),
                                     trailingSubtitle: MyUtils.getUserAmount(
@@ -220,7 +220,7 @@ class _GiftHistoryScreenState extends State<GiftHistoryScreen> {
                     ),
                     isDate: true,
                     header: MyStrings.time,
-                    body: DateConverter.isoToLocalDateAndTime(
+                    body: DateConverter.estimatedDateOrTime(
                       item.updatedAt ?? "0",
                     ),
                     isBodyEllipsis: false,
